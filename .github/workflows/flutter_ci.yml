@@ -35,12 +35,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           files: build/windows/runner/Release/Billz-${{ github.ref_name }}-windows.zip
-
       - name: Download Artifact
         uses: actions/download-artifact@v2
         with:
           name: release-artifact
           path: downloaded_artifact
-
       - name: List Artifacts
         run: ls downloaded_artifact
