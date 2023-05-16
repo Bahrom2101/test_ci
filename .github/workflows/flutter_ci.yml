@@ -2,12 +2,12 @@ name: Flutter CI
 
 on:
   push:
-    branches: [ "test" ]
-    
+    branches: [ "main" ]
+
 jobs:
   build-and-release-windows:
     runs-on: windows-latest
-    
+
     steps:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v1
@@ -26,7 +26,7 @@ jobs:
         uses: thedoctor0/zip-release@master
         with:
           type: 'zip'
-          filename: Billz-${{ github.ref_name }}-windows.zip
+          filename: MacRecoveryX-${{github.ref_name}}-windows.zip
           directory: build/windows/runner/Release
       - name: Windows Release
         uses: softprops/action-gh-release@v1
@@ -34,11 +34,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          files: build/windows/runner/Release/Billz-${{ github.ref_name }}-windows.zip
-      - name: Download Artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: release-artifact
-          path: downloaded_artifact
+          files: build/windows/runner/Release/MacRecoveryX-${{github.ref_name}}-windows.zip
       - name: List Artifacts
         run: ls downloaded_artifact
