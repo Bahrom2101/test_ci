@@ -22,3 +22,12 @@ jobs:
         run: flutter config --enable-windows-desktop
       - name: Build artifacts
         run: flutter build windows --release
+      
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: release-artifact
+          path: downloaded_artifact
+
+      - name: List Artifacts
+        run: ls downloaded_artifact
