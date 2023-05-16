@@ -2,10 +2,10 @@ name: Flutter CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "test" ]
     
 jobs:
-  build-windows:
+  build-and-release-windows:
     runs-on: windows-latest
     
     steps:
@@ -22,7 +22,20 @@ jobs:
         run: flutter config --enable-windows-desktop
       - name: Build artifacts
         run: flutter build windows --release
-      
+      - name: Archive Release
+        uses: thedoctor0/zip-release@master
+        with:
+          type: 'zip'
+          filename: Billz-${{ github.ref_name }}-windows.zip
+          directory: build/windows/runner/Release
+      - name: Windows Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: build/windows/runner/Release/Billz-${{ github.ref_name }}-windows.zip
+
       - name: Download Artifact
         uses: actions/download-artifact@v2
         with:
